@@ -79,7 +79,7 @@ public class Traversals {
    */
   public static <T> List<T> collectLevelOrderValues(TreeNode<T> node) {
     List<T> treeVals = new ArrayList<>();
-    if (node == null) 
+    if(node == null) 
     {
       return treeVals;
     }
@@ -87,17 +87,17 @@ public class Traversals {
     Queue<TreeNode<T>> queue = new LinkedList<>();
     queue.add(node);
 
-    while (!queue.isEmpty()) 
+    while(!queue.isEmpty()) 
     {
       TreeNode<T> curr = queue.poll();
       treeVals.add(curr.value);
 
-      if (curr.left != null) 
+      if(curr.left != null) 
       {
         queue.add(curr.left);
       }
 
-      if (curr.right != null) 
+      if(curr.right != null) 
       {
         queue.add(curr.right);
       }
@@ -114,19 +114,31 @@ public class Traversals {
    */
   public static int countDistinctValues(TreeNode<Integer> node) {
     Map<Integer, Integer> unique = new HashMap<>();
+    int count = 0;
     if(node == null)
     {
       return 0;
     }
-    else
+
+    Queue<TreeNode<Integer>> queue = new LinkedList<>();
+    queue.add(node);
+
+    while(!queue.isEmpty()) 
     {
-      if(unique.containsKey(node.value))
+      TreeNode<Integer> curr = queue.poll();
+
+      if(unique.containsKey(node.value)) 
       {
-        return 0;
+        queue.add(curr.left);
       }
-      unique.put(node.value, 1); //adding everytime since its a new iteration of method
-      return countDistinctValues(node.left) + countDistinctValues(node.right) + 1;
+
+
+      if(curr.right != null) 
+      {
+        queue.add(curr.right);
+      }
     }
+    return count;
   }
 
   /**
