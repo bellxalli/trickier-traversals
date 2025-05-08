@@ -112,34 +112,27 @@ public class Traversals {
    * @param node the node of the tree
    * @return the number of unique values in the tree, or 0 if the tree is null
    */
+
   public static int countDistinctValues(TreeNode<Integer> node) {
-    Map<Integer, Integer> unique = new HashMap<>();
-    int count = 0;
-    if(node == null)
-    {
-      return 0;
-    }
+    Set<Integer> uInts = new HashSet<>();
+    
+    collectValues(node, uInts);
 
-    Queue<TreeNode<Integer>> queue = new LinkedList<>();
-    queue.add(node);
-
-    while(!queue.isEmpty()) 
-    {
-      TreeNode<Integer> curr = queue.poll();
-
-      if(unique.containsKey(node.value)) 
-      {
-        queue.add(curr.left);
-      }
-
-
-      if(curr.right != null) 
-      {
-        queue.add(curr.right);
-      }
-    }
-    return count;
+    return uInts.size();
   }
+
+  private static void collectValues(TreeNode<Integer> node, Set<Integer> uInts) 
+  {
+    if(node == null) 
+    {
+      return;
+    }
+
+    uInts.add(node.value);
+    collectValues(node.left, uInts);
+    collectValues(node.right, uInts);
+  }
+ 
 
   /**
    * Determines whether there is at least one root-to-leaf path in the tree
